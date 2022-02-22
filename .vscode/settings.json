@@ -1,0 +1,8 @@
+{
+    "java.project.sourcePaths": [
+        "8day_bfs_dfs",
+        "7day_flood_fill",
+        "6day_sliding_window",
+        "9day_MS_Challenge"
+    ]
+}
