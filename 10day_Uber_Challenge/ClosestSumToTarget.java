@@ -15,14 +15,6 @@ public class ClosestSumToTarget {
             this.second = second;
         }
 
-        public Integer first() {
-            return this.first;
-        }
-
-        public Integer second() {
-            return this.second;
-        }
-
         @Override
         public String toString() {
             return "Pair [first=" + first + ", second=" + second + "]";
@@ -33,6 +25,10 @@ public class ClosestSumToTarget {
     public static void main(String[] args) {
         Integer[] l1 = { -1, 2, 4, 3, 5 };
         Integer[] l2 = { 7, 8, 10, 5, 4 };
+        // Integer[] l1 = { -1 };
+        // Integer[] l2 = { 7 };
+        // Integer[] l1 = { };
+        // Integer[] l2 = { };
         Integer target = 17;
 
         System.out.println(findClosest(sortArrays(l1), sortArrays(l2), target));
@@ -48,12 +44,12 @@ public class ClosestSumToTarget {
         int startIdx = 0, endIdx = a.length - 1;
         Integer minDiff = Integer.MAX_VALUE;
         Pair closestPair = null;
-        for (int i = 0; i < a.length - 1; i++) {
+        while (startIdx <= a.length - 1 && endIdx >= 0) {
             Integer diff = Math.abs(a[startIdx] + b[endIdx] - target);
             if (diff < minDiff) {
                 minDiff = diff;
-                startIdx++;
                 closestPair = new Pair(a[startIdx], b[endIdx]);
+                startIdx++;
             } else {
                 endIdx--;
             }
