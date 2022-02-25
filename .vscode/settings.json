@@ -1,8 +1,9 @@
 {
     "java.project.sourcePaths": [
+        "9day_MS_Challenge",
         "8day_bfs_dfs",
         "7day_flood_fill",
         "6day_sliding_window",
-        "9day_MS_Challenge"
+        "10day_Uber_Challenge"
     ]
 }

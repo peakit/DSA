@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class PhotoSorter {
 
@@ -117,27 +119,27 @@ public class PhotoSorter {
         Photo photo1 = sorter.new Photo(1, "Warsaw", "photo.jpg",
                 new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
         Photo photo2 = sorter.new Photo(2, "Warsaw", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:16"));
         Photo photo3 = sorter.new Photo(3, "Warsaw", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-03 14:08:17"));
         Photo photo4 = sorter.new Photo(4, "Warsaw", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:18"));
         Photo photo5 = sorter.new Photo(5, "Jaipur", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:19"));
         Photo photo6 = sorter.new Photo(6, "Warsaw", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-01 14:08:20"));
         Photo photo7 = sorter.new Photo(7, "Warsaw", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:21"));
         Photo photo8 = sorter.new Photo(8, "Warsaw", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:22"));
         Photo photo9 = sorter.new Photo(9, "Warsaw", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:23"));
         Photo photo10 = sorter.new Photo(10, "Warsaw", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:24"));
         Photo photo11 = sorter.new Photo(11, "Jaipur", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
-        Photo photo12 = sorter.new Photo(12, "Jaipur", "photo.jpg",
-                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:15"));
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-01 14:08:25"));
+        Photo photo12 = sorter.new Photo(12, "Warsaw", "photo.jpg",
+                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse("2013-09-05 14:08:26"));
 
         List<Photo> photos = Arrays.asList(photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9,
                 photo10, photo11, photo12);
@@ -164,37 +166,36 @@ public class PhotoSorter {
     }
 
     private static String renamePhotos(List<Photo> photos) {
-        Map<String, List<Photo>> record = new HashMap<>();
+        Map<String, Set<Photo>> record = new HashMap<>();
         for (Photo aPhoto : photos) {
             String city = aPhoto.getCity();
 
             if (record.containsKey(city)) {
-                List<Photo> existingPhotos = record.get(city);
-                List<Photo> newPhotos = new ArrayList<>(existingPhotos);
+                Set<Photo> existingPhotos = record.get(city);
+                Set<Photo> newPhotos = new TreeSet<>(existingPhotos);
                 newPhotos.add(aPhoto);
                 record.put(city, newPhotos);
             } else {
-                record.put(city, Arrays.asList(aPhoto));
+                record.put(city, Set.of(aPhoto));
             }
         }
 
         Map<String, Integer> countByCity = new HashMap<>();
-        for (Entry<String, List<Photo>> entrySetObj : record.entrySet()) {
+        for (Entry<String, Set<Photo>> entrySetObj : record.entrySet()) {
             String country = entrySetObj.getKey();
             Integer count = entrySetObj.getValue().size();
 
             countByCity.put(country, count);
-            Collections.sort(entrySetObj.getValue());
+            // Collections.sort(entrySetObj.getValue());
         }
 
-        for (Map.Entry<String, List<Photo>> entryObj : record.entrySet()) {
+        for (Map.Entry<String, Set<Photo>> entryObj : record.entrySet()) {
             String city = entryObj.getKey();
             Integer num = countByCity.get(city);
 
             Integer digitCount = 0;
             for (; num != 0; num /= 10, ++digitCount)
                 ;
-            System.out.println(digitCount);
             for (Photo aPhoto : entryObj.getValue()) {
                 String newPhotoName = city + String.format("%0" + digitCount + "d", ++num);
                 aPhoto.setPhotoName(newPhotoName);
@@ -202,7 +203,7 @@ public class PhotoSorter {
         }
 
         List<Photo> allPhotos = new ArrayList<>();
-        for (Map.Entry<String, List<Photo>> entryObj : record.entrySet()) {
+        for (Map.Entry<String, Set<Photo>> entryObj : record.entrySet()) {
             allPhotos.addAll(entryObj.getValue());
         }
 
@@ -214,7 +215,7 @@ public class PhotoSorter {
 
         String allRenamedPhotoNames = "";
         for (Photo aPhoto : allPhotos) {
-            allRenamedPhotoNames = aPhoto.getPhotoName() + "\n";
+            allRenamedPhotoNames += aPhoto.getPhotoName() + "\n";
         }
         return allRenamedPhotoNames;
     }

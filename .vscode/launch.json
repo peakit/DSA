@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch ClosestSumToTarget",
+            "request": "launch",
+            "mainClass": "ClosestSumToTarget",
+            "projectName": "DSA_e92293a6"
+        },
+        {
+            "type": "java",
+            "name": "Launch PopulateNextPointerInTree",
+            "request": "launch",
+            "mainClass": "PopulateNextPointerInTree",
+            "projectName": "DSA_e92293a6"
+        },
+        {
+            "type": "java",
             "name": "Launch MergeTwoBin",
             "request": "launch",
             "mainClass": "MergeTwoBin",
